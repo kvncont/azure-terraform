@@ -46,4 +46,3 @@ resource azurerm_virtual_network vnet_aks {
     created_by = "terraform"
   }
 }
-
