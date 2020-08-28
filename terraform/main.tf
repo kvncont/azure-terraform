@@ -12,7 +12,7 @@ resource azurerm_resource_group rg_aks {
   location = "East US 2"
 
   tags = {
-    env        = "development"
+    env        = "dev"
     created_by = "terraform"
   }
 }
@@ -23,7 +23,7 @@ resource azurerm_network_security_group nsg_aks {
   resource_group_name = azurerm_resource_group.rg_aks.name
 
   tags = {
-    env        = "development"
+    env        = "dev"
     created_by = "terraform"
   }
 }
@@ -42,7 +42,7 @@ resource azurerm_virtual_network vnet_aks {
   }
 
   tags = {
-    env        = "development"
+    env        = "dev"
     created_by = "terraform"
   }
 }
