@@ -47,3 +47,4 @@ steps:
     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
     environmentServiceNameAzureRM: 'Development'
   displayName: 'Terraform apply'
+  
