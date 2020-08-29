@@ -37,7 +37,7 @@ steps:
     provider: 'azurerm'
     command: 'plan'
     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
-    commandOptions: '-out=.'
+    commandOptions: '-out=./out.plan'
     environmentServiceNameAzureRM: 'Development'
   displayName: 'Terraform plan'
 
