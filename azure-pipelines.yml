@@ -37,13 +37,28 @@ steps:
     provider: 'azurerm'
     command: 'plan'
     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
+    commandOptions: '-out=.'
     environmentServiceNameAzureRM: 'Development'
   displayName: 'Terraform plan'
 
-- task: TerraformTaskV1@0
+# - task: TerraformTaskV1@0
+#   inputs:
+#     provider: 'azurerm'
+#     command: 'apply'
+#     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
+#     environmentServiceNameAzureRM: 'Development'
+#   displayName: 'Terraform apply'
+
+- task: CopyFiles@2
   inputs:
-    provider: 'azurerm'
-    command: 'apply'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
-    environmentServiceNameAzureRM: 'Development'
-  displayName: 'Terraform apply'
+    SourceFolder: '$(System.DefaultWorkingDirectory)/terraform/'
+    Contents: 'out.plan'
+    TargetFolder: '$(Build.Artifactstagingdirectory)'
+  displayName: 'Copy plan to artifacts'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'plan'
+    publishLocation: 'Container'
+  displayName: 'Publish plan'
