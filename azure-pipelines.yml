@@ -52,7 +52,7 @@ steps:
 - task: CopyFiles@2
   inputs:
     SourceFolder: '$(System.DefaultWorkingDirectory)/terraform/'
-    Contents: 'out.plan'
+    Contents: 'dev.tfplan'
     TargetFolder: '$(Build.Artifactstagingdirectory)'
   displayName: 'Copy terraform plan to artifacts'
 
