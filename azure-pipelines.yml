@@ -37,7 +37,7 @@ steps:
     provider: 'azurerm'
     command: 'plan'
     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
-    commandOptions: '-out=./out.plan'
+    commandOptions: '-out=./dev.tfplan'
     environmentServiceNameAzureRM: 'Development'
   displayName: 'Terraform plan'
 
@@ -54,11 +54,11 @@ steps:
     SourceFolder: '$(System.DefaultWorkingDirectory)/terraform/'
     Contents: 'out.plan'
     TargetFolder: '$(Build.Artifactstagingdirectory)'
-  displayName: 'Copy plan to artifacts'
+  displayName: 'Copy terraform plan to artifacts'
 
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'plan'
+    ArtifactName: 'TerraformPlanFile'
     publishLocation: 'Container'
-  displayName: 'Publish plan'
+  displayName: 'Publish terraform plan'
