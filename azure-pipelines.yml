@@ -41,18 +41,10 @@ steps:
     environmentServiceNameAzureRM: 'Development'
   displayName: 'Terraform plan'
 
-# - task: TerraformTaskV1@0
-#   inputs:
-#     provider: 'azurerm'
-#     command: 'apply'
-#     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
-#     environmentServiceNameAzureRM: 'Development'
-#   displayName: 'Terraform apply'
-
 - task: CopyFiles@2
   inputs:
     SourceFolder: '$(System.DefaultWorkingDirectory)/terraform/'
-    Contents: 'dev.tfplan'
+    Contents: '**'
     TargetFolder: '$(Build.Artifactstagingdirectory)'
   displayName: 'Copy terraform plan to artifacts'
 
