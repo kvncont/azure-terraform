@@ -1,0 +1,56 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+- group: global-vars
+
+steps:
+- task: TerraformInstaller@0
+  inputs:
+    terraformVersion: '0.13.1'
+  displayName: 'Terraform install'
+
+- task: TerraformTaskV1@0
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
+    backendServiceArm: 'Development'
+    backendAzureRmResourceGroupName: '$(RESOURCE_GROUP_NAME)'
+    backendAzureRmStorageAccountName: '$(STORAGE_ACCOUNT_NAME)'
+    backendAzureRmContainerName: '$(CONTAINER_NAME)'
+    backendAzureRmKey: '$(STORAGE_KEY)'
+  displayName: 'Terraform init'
+
+- task: TerraformTaskV1@0
+  inputs:
+    provider: 'azurerm'
+    command: 'validate'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
+  displayName: 'Terraform validate'
+
+- task: TerraformTaskV1@0
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
+    commandOptions: '-out=tfplan'
+    environmentServiceNameAzureRM: 'Development'
+  displayName: 'Terraform plan'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)/terraform/'
+    Contents: '**'
+    TargetFolder: '$(Build.Artifactstagingdirectory)'
+  displayName: 'Copy terraform plan to artifacts'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'terraform'
+    publishLocation: 'Container'
+  displayName: 'Publish terraform plan'
