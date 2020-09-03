@@ -37,7 +37,7 @@ steps:
     provider: 'azurerm'
     command: 'plan'
     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
-    commandOptions: '-out=./dev.tfplan'
+    commandOptions: '-out=tfplan'
     environmentServiceNameAzureRM: 'Development'
   displayName: 'Terraform plan'
 
@@ -51,6 +51,6 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'TerraformPlanFile'
+    ArtifactName: 'Plan'
     publishLocation: 'Container'
   displayName: 'Publish terraform plan'
