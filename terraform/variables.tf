@@ -42,6 +42,42 @@ variable subnet_aks_address {
   default = "10.0.0.0/24"
 }
 
+# AKS
+variable aks_name {
+  type    = string
+  default = "akskratos"
+}
+
+variable aks_kubernetes_version {
+  type    = string
+  default = "1.16.13"
+}
+
+variable aks_default_node_pool_name {
+  type    = string
+  default = "agentpool"
+}
+
+variable aks_node_count_default {
+  type    = number
+  default = 2
+}
+
+variable aks_node_max_count {
+  type    = number
+  default = 5
+}
+
+variable aks_node_min_count {
+  type    = number
+  default = 2
+}
+
+variable aks_vm_size {
+  type    = string
+  default = "Standard_D2_v2"
+}
+
 # Tags
 variable tags {
   type    = map(string)
