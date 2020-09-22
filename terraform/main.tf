@@ -72,6 +72,16 @@ resource azurerm_kubernetes_cluster aks {
       enabled = true
     }
   }
+
+  lifecycle = {
+    ignore_changes = [
+      default_node_pool.0.node_count
+    ]
+  }
+
+  depends_on = [
+    azurerm_subnet.subnet_aks
+  ]
   
   tags = var.tags
 }
