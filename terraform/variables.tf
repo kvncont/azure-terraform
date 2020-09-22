@@ -38,8 +38,8 @@ variable subnet_aks_name {
 }
 
 variable subnet_aks_address {
-  type    = string
-  default = "10.0.0.0/24"
+  type    = list(string)
+  default = ["10.0.0.0/24"]
 }
 
 # AKS
