@@ -34,7 +34,6 @@ resource azurerm_subnet subnet_aks {
   resource_group_name  = azurerm_resource_group.rg_aks.name
   virtual_network_name = var.vnet_aks_name
   address_prefixes     = var.subnet_aks_address
-  tags                = var.tags
 }
 
 resource azurerm_log_analytics_workspace law_aks {
