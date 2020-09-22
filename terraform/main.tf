@@ -27,12 +27,13 @@ resource azurerm_virtual_network vnet_aks {
   address_space       = var.vnet_aks_address_space
   dns_servers         = var.vnet_aks_dns_server
   tags                = var.tags
+}
 
-  subnet {
-    name           = var.subnet_aks_name
-    address_prefix = var.subnet_aks_address
-    security_group = azurerm_network_security_group.nsg_aks.id
-  }
+resource azurerm_subnet subnet_aks {
+  name                 = var.subnet_aks_name
+  resource_group_name  = azurerm_resource_group.rg_aks.name
+  virtual_network_name = var.vnet_aks_name
+  address_prefixes     = var.subnet_aks_address
 }
 
 resource azurerm_kubernetes_cluster aks {
@@ -50,7 +51,7 @@ resource azurerm_kubernetes_cluster aks {
     type                 = "VirtualMachineScaleSets"
     # availability_zones   = ["1", "2"]
     # sku_tier = Paid
-    vnet_subnet_id       = azurerm_virtual_network.vnet_aks.subnet.id
+    vnet_subnet_id       = azurerm_subnet.subnet_aks.id
 
     node_count           = var.aks_node_count_default
     max_count            = var.aks_node_max_count
