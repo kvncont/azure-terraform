@@ -42,6 +42,12 @@ variable subnet_aks_address {
   default = ["10.0.0.0/16"]
 }
 
+# Log Analytics
+variable law_aks_name {
+  type    = string
+  default = "law-akskratos"
+}
+
 # AKS
 variable aks_name {
   type    = string
@@ -76,6 +82,34 @@ variable aks_node_min_count {
 variable aks_vm_size {
   type    = string
   default = "Standard_D2_v2"
+}
+
+# Diagnostic Settings
+variable diagnostic_setting_name {
+  type    = string
+  default = "ds-akskratos"
+}
+
+variable diagnostic_setting_log_categories {
+  type    = list(string)
+  default = [
+    "AzureActivity",
+    "AzureMetrics",
+    "ContainerImageInventory",
+    "ContainerInventory",
+    "ContainerLog",
+    "ContainerNodeInventory",
+    "ContainerServiceLog",
+    "Heartbeat",
+    "InsightsMetrics",
+    "KubeEvents",
+    "KubeHealth",
+    "KubeMonAgentEvents",
+    "KubeNodeInventory",
+    "KubePodInventory",
+    "KubeServices",
+    "Perf"
+  ]
 }
 
 # Tags

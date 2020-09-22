@@ -34,6 +34,30 @@ resource azurerm_subnet subnet_aks {
   resource_group_name  = azurerm_resource_group.rg_aks.name
   virtual_network_name = var.vnet_aks_name
   address_prefixes     = var.subnet_aks_address
+  tags                = var.tags
+}
+
+resource azurerm_log_analytics_workspace law_aks {
+  name                = var.law_aks_name
+  location            = azurerm_resource_group.rg_aks.location
+  resource_group_name = azurerm_resource_group.rg_aks.name
+  sku                 = "PerGB2018"
+  tags                = var.tags
+}
+
+resource azurerm_log_analytics_solution las_aks {
+  solution_name         = "ContainerInsights"
+  location              = azurerm_resource_group.rg_aks.location
+  resource_group_name   = azurerm_resource_group.rg_aks.name
+  workspace_resource_id = azurerm_log_analytics_workspace.law_aks.id
+  workspace_name        = azurerm_log_analytics_workspace.law_aks.name
+
+  plan {
+    publisher = "Microsoft"
+    product   = "OMSGalleryContainerInsights"
+  }
+
+  tags = var.tags
 }
 
 resource azurerm_kubernetes_cluster aks {
@@ -50,7 +74,7 @@ resource azurerm_kubernetes_cluster aks {
     enable_auto_scaling  = true
     type                 = "VirtualMachineScaleSets"
     # availability_zones   = ["1", "2"]
-    # sku_tier = Paid
+    # sku_tier             = Paid
     vnet_subnet_id       = azurerm_subnet.subnet_aks.id
 
     node_count           = var.aks_node_count_default
@@ -86,6 +110,27 @@ resource azurerm_kubernetes_cluster aks {
   depends_on = [
     azurerm_subnet.subnet_aks
   ]
-  
+
   tags = var.tags
 }
+
+# resource azurerm_monitor_diagnostic_setting ds_aks {
+#   name                       = var.diagnostic_setting_name
+#   target_source_id           = azurerm_kubernetes_cluster.aks.id
+#   log_analytics_workspace_id = azurerm_log_analytics_workspace.law_aks.id
+
+#   dynamic log {
+#     for_each = var.diagnostic_setting_log_categories
+#     content {
+#       category = log.value
+#       enabled  = true
+#     }
+#   }
+
+#   depends_on = [
+#     azurerm_log_analytics_workspace.law_aks,
+#     azurerm_kubernetes_cluster.aks
+#   ]
+
+#   tags = var.tags
+# }
