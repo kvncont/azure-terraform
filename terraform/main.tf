@@ -55,8 +55,6 @@ resource azurerm_log_analytics_solution las_aks {
     publisher = "Microsoft"
     product   = "OMSGalleryContainerInsights"
   }
-
-  tags = var.tags
 }
 
 resource azurerm_kubernetes_cluster aks {
