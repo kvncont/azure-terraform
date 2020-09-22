@@ -62,12 +62,12 @@ resource azurerm_kubernetes_cluster aks {
     type = "SystemAssigned"
   }
 
-  addon_profile {
-    network_profile {
-      network_plugin    = "azure"
-      load_balancer_sku = "Basic"
-    }
+  network_profile {
+    network_plugin    = "azure"
+    load_balancer_sku = "Basic"
+  }
 
+  addon_profile {
     kube_dashboard {
       enabled = true
     }
