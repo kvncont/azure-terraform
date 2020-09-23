@@ -44,18 +44,22 @@ resource azurerm_log_analytics_workspace law_aks {
   tags                = var.tags
 }
 
-resource azurerm_log_analytics_solution las_aks {
-  solution_name         = "ContainerInsights"
-  location              = azurerm_resource_group.rg_aks.location
-  resource_group_name   = azurerm_resource_group.rg_aks.name
-  workspace_resource_id = azurerm_log_analytics_workspace.law_aks.id
-  workspace_name        = azurerm_log_analytics_workspace.law_aks.name
+# resource azurerm_log_analytics_solution las_aks {
+#   solution_name         = "ContainerInsights"
+#   location              = azurerm_resource_group.rg_aks.location
+#   resource_group_name   = azurerm_resource_group.rg_aks.name
+#   workspace_resource_id = azurerm_log_analytics_workspace.law_aks.id
+#   workspace_name        = azurerm_log_analytics_workspace.law_aks.name
 
-  plan {
-    publisher = "Microsoft"
-    product   = "OMSGalleryContainerInsights"
-  }
-}
+#   plan {
+#     publisher = "Microsoft"
+#     product   = "OMSGalleryContainerInsights"
+#   }
+
+#   depends_on = [
+#     azurerm_log_analytics_workspace.law_aks
+#   ]
+# }
 
 resource azurerm_kubernetes_cluster aks {
   name                = var.aks_name
@@ -85,9 +89,9 @@ resource azurerm_kubernetes_cluster aks {
 
   network_profile {
     network_plugin     = "azure"
-    load_balancer_sku  = "Basic"
-    service_cidr       = "10.1.0.0/16"
-    dns_service_ip     = "10.1.0.10"
+    load_balancer_sku  = "Standard"
+    service_cidr       = "10.0.0.0/16"
+    dns_service_ip     = "10.0.0.10"
     docker_bridge_cidr = "172.17.0.1/16"
     outbound_type      = "loadBalancer"
   }
