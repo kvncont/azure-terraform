@@ -25,7 +25,7 @@ resource azurerm_virtual_network vnet_aks {
   location            = azurerm_resource_group.rg_aks.location
   resource_group_name = azurerm_resource_group.rg_aks.name
   address_space       = var.vnet_aks_address_space
-  dns_servers         = var.vnet_aks_dns_server
+  # dns_servers         = var.vnet_aks_dns_server
   tags                = var.tags
 }
 
