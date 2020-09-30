@@ -64,19 +64,26 @@ variable aks_default_node_pool_name {
   default = "agentpool"
 }
 
+variable aks_enable_auto_scaling {
+  type    = bool
+  default = false
+}
+
 variable aks_node_count_default {
   type    = number
   default = 2
 }
 
 variable aks_node_max_count {
-  type    = number
-  default = 5
+  type        = number
+  description = "Si el enable_auto_scaling es false, esta variable debe ser nula, de lo contrario debe ir la cantidad deseada"
+  default     = null
 }
 
 variable aks_node_min_count {
-  type    = number
-  default = 2
+  type        = number
+  description = "Si el enable_auto_scaling es false, esta variable debe ser nula, de lo contrario debe ir la cantidad deseada"
+  default     = null
 }
 
 variable aks_vm_size {

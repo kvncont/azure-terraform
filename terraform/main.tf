@@ -76,7 +76,7 @@ resource azurerm_kubernetes_cluster aks {
     name                 = var.aks_default_node_pool_name
     orchestrator_version = var.aks_kubernetes_version
     vm_size              = var.aks_vm_size
-    enable_auto_scaling  = true
+    enable_auto_scaling  = var.aks_enable_auto_scaling
     type                 = "VirtualMachineScaleSets"
     # availability_zones   = ["1", "2"]
     # sku_tier             = Paid
