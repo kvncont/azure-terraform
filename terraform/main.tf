@@ -8,7 +8,7 @@ provider "azurerm" {
 }
 
 data azurerm_resource_group rg_vnet_akskratos_imported {
-  name = "rg-portal"
+  name = "rg-shared-resources"
 }
 
 data azurerm_virtual_network vnet_akskratos_imported {
