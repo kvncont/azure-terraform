@@ -81,62 +81,7 @@ resource azurerm_log_analytics_workspace law_aks {
 # }
 
 resource azurerm_kubernetes_cluster aks {
-#   name                = var.aks_name
-#   location            = azurerm_resource_group.rg_aks.location
-#   resource_group_name = azurerm_resource_group.rg_aks.name
-#   dns_prefix          = "${var.aks_name}-dns"
-#   kubernetes_version  = var.aks_kubernetes_version
-
-#   default_node_pool {
-#     name                 = var.aks_default_node_pool_name
-#     orchestrator_version = var.aks_kubernetes_version
-#     vm_size              = var.aks_vm_size
-#     enable_auto_scaling  = var.aks_enable_auto_scaling
-#     type                 = "VirtualMachineScaleSets"
-#     # availability_zones   = ["1", "2"]
-#     # sku_tier             = Paid
-#     # vnet_subnet_id       = azurerm_subnet.subnet_aks.id
-#     vnet_subnet_id       = data.azurerm_subnet.subnet_akskratos_imported.id
-
-#     node_count           = var.aks_node_count_default
-#     max_count            = var.aks_node_max_count
-#     min_count            = var.aks_node_min_count
-#   }
-
-#   identity {
-#     type = "SystemAssigned"
-#   }
-
-#   role_based_access_control {
-#     enabled = true
-#   }
-
-#   network_profile {
-#     network_plugin     = "azure"
-#     load_balancer_sku  = "Standard"
-#     # service_cidr       = "10.0.0.0/16"
-#     # dns_service_ip     = "10.0.0.10"
-#     # docker_bridge_cidr = "172.17.0.1/16"
-#     outbound_type      = "loadBalancer"
-#   }
-
-#   addon_profile {
-#     kube_dashboard {
-#       enabled = true
-#     }
-#   }
-
-#   lifecycle {
-#     ignore_changes = [
-#       default_node_pool.0.node_count
-#     ]
-#   }
-
-#   depends_on = [
-#     azurerm_subnet.subnet_aks
-#   ]
-
-#   tags = var.tags
+  # (resource arguments)
 }
 
 # resource azurerm_monitor_diagnostic_setting ds_aks {
