@@ -80,7 +80,7 @@ resource azurerm_log_analytics_workspace law_aks {
 #   ]
 # }
 
-# resource azurerm_kubernetes_cluster aks {
+resource azurerm_kubernetes_cluster aks {
 #   name                = var.aks_name
 #   location            = azurerm_resource_group.rg_aks.location
 #   resource_group_name = azurerm_resource_group.rg_aks.name
@@ -137,7 +137,7 @@ resource azurerm_log_analytics_workspace law_aks {
 #   ]
 
 #   tags = var.tags
-# }
+}
 
 # resource azurerm_monitor_diagnostic_setting ds_aks {
 #   name                       = var.diagnostic_setting_name
