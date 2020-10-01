@@ -7,6 +7,21 @@ provider "azurerm" {
   features {}
 }
 
+data azurerm_resource_group rg_vnet_akskratos_imported {
+  name = "rg-portal"
+}
+
+data azurerm_virtual_network vnet_akskratos_imported {
+  name                = "vnet-akskratos-imported"
+  resource_group_name = data.azurerm_resource_group.rg_vnet_akskratos_imported.name
+}
+
+data azurerm_subnet subnet_akskratos_imported {
+  name                 = "subnet-akskratos"
+  resource_group_name  = data.azurerm_resource_group.rg_vnet_akskratos_imported.name
+  virtual_network_name = data.azurerm_virtual_network.vnet_akskratos_imported.name
+}
+
 resource azurerm_resource_group rg_aks {
   name     = var.rg_aks_name
   location = var.rg_aks_location
@@ -80,7 +95,8 @@ resource azurerm_kubernetes_cluster aks {
     type                 = "VirtualMachineScaleSets"
     # availability_zones   = ["1", "2"]
     # sku_tier             = Paid
-    vnet_subnet_id       = azurerm_subnet.subnet_aks.id
+    # vnet_subnet_id       = azurerm_subnet.subnet_aks.id
+    vnet_subnet_id       = data.azurerm_subnet.subnet_akskratos_imported.id
 
     node_count           = var.aks_node_count_default
     max_count            = var.aks_node_max_count
