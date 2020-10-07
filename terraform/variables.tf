@@ -56,7 +56,7 @@ variable aks_name {
 
 variable aks_kubernetes_version {
   type    = string
-  default = "1.16.15"
+  default = "1.17.9"
 }
 
 variable aks_default_node_pool_name {
