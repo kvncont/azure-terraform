@@ -139,6 +139,101 @@ resource azurerm_kubernetes_cluster aks {
   tags = var.tags
 }
 
+resource azurerm_monitor_action_group mag_aks_gsbd {
+  name                = "GSBD"
+  resource_group_name = azurerm_resource_group.rg_aks_name.name
+  short_name          = "GSBD"
+
+  email_receiver {
+    name          = "sendtodevteam"
+    email_address = "kvncont@gmail.com"
+    use_common_alert_schema = true
+  }
+}
+
+resource azurerm_monitor_action_group mag_aks_gpro {
+  name                = "GPRO"
+  resource_group_name = azurerm_resource_group.rg_aks_name.name
+  short_name          = "GPRO"
+
+  email_receiver {
+    name          = "sendtoadminteam"
+    email_address = "kvncont@gmail.com"
+  }
+}
+
+resource azurerm_monitor_metric_alert mma_node_status {
+  name                = "alert_node_status_condition"
+  resource_group_name = azurerm_resource_group.rg_aks.name
+  scopes              = [azurerm_kubernetes_cluster.aks.id]
+  description         = "Action will be triggered when Nodes status are NotReady or Unknown"
+  severity            = 0
+
+  criteria {
+    metric_namespace = "Microsoft.ContainerService/managedClusters"
+    metric_name      = "kube_node_status_condition"
+    aggregation      = "Total"
+    operator         = "GreaterThanOrEqual"
+    threshold        = 1
+
+    dimension {
+      name     = "status2"
+      operator = "Include"
+      values   = ["unknown", "notReady"]
+    }
+  }
+
+  action {
+    action_group_id = azurerm_monitor_action_group.mag_aks_gsbd.id
+  }
+
+  action {
+    action_group_id = azurerm_monitor_action_group.mag_aks_gpro.id
+  }
+
+  depends_on = [
+    azurerm_kubernetes_cluster.aks,
+    azurerm_monitor_action_group.mag_aks_gsbd,
+    azurerm_monitor_action_group.mag_aks_gpro
+  ]
+}
+
+resource azurerm_monitor_metric_alert mma_pod_status {
+  name                = "alert_pod_status_phase"
+  resource_group_name = azurerm_resource_group.rg_aks.name
+  scopes              = [azurerm_kubernetes_cluster.aks.id]
+  description         = "Action will be triggered when pods status are Pending, Unknown or Failed"
+  severity            = 0
+
+  criteria {
+    metric_namespace = "Microsoft.ContainerService/managedClusters"
+    metric_name      = "kube_pod_status_phase"
+    aggregation      = "Total"
+    operator         = "GreaterThanOrEqual"
+    threshold        = 2
+
+    dimension {
+      name     = "phase"
+      operator = "Include"
+      values   = ["pending", "failed", "unknown"]
+    }
+  }
+
+  action {
+    action_group_id = azurerm_monitor_action_group.mag_aks_gsbd.id
+  }
+
+  action {
+    action_group_id = azurerm_monitor_action_group.mag_aks_gpro.id
+  }
+
+  depends_on = [
+    azurerm_kubernetes_cluster.aks,
+    azurerm_monitor_action_group.mag_aks_gsbd,
+    azurerm_monitor_action_group.mag_aks_gpro
+  ]
+}
+
 # resource azurerm_monitor_diagnostic_setting ds_aks {
 #   name                       = var.diagnostic_setting_name
 #   target_source_id           = azurerm_kubernetes_cluster.aks.id
