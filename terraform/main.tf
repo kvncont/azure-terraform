@@ -179,7 +179,7 @@ resource azurerm_monitor_metric_alert mma_node_status {
     dimension {
       name     = "status2"
       operator = "Include"
-      values   = ["unknown", "notReady"]
+      values   = ["NotReady", "unknown"]
     }
   }
 
@@ -215,7 +215,7 @@ resource azurerm_monitor_metric_alert mma_pod_status {
     dimension {
       name     = "phase"
       operator = "Include"
-      values   = ["pending", "failed", "unknown"]
+      values   = ["Pending", "Failed", "unknown"]
     }
   }
 
