@@ -141,7 +141,7 @@ resource azurerm_kubernetes_cluster aks {
 
 resource azurerm_monitor_action_group mag_aks_gsbd {
   name                = "GSBD"
-  resource_group_name = azurerm_resource_group.rg_aks_name.name
+  resource_group_name = azurerm_resource_group.rg_aks.name
   short_name          = "GSBD"
 
   email_receiver {
@@ -153,7 +153,7 @@ resource azurerm_monitor_action_group mag_aks_gsbd {
 
 resource azurerm_monitor_action_group mag_aks_gpro {
   name                = "GPRO"
-  resource_group_name = azurerm_resource_group.rg_aks_name.name
+  resource_group_name = azurerm_resource_group.rg_aks.name
   short_name          = "GPRO"
 
   email_receiver {
