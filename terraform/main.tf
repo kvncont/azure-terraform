@@ -164,7 +164,7 @@ resource azurerm_monitor_action_group mag_aks_gpro {
 }
 
 resource azurerm_monitor_metric_alert mma_node_status {
-  name                = "alert_node_status_condition"
+  name                = "Nodes in not ready status for akskratos"
   resource_group_name = azurerm_resource_group.rg_aks.name
   scopes              = [azurerm_kubernetes_cluster.aks.id]
   description         = "Action will be triggered when Nodes status are NotReady or Unknown"
