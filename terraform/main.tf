@@ -155,10 +155,11 @@ resource azurerm_monitor_action_group mag_aks_gpro {
   name                = "GPRO"
   resource_group_name = azurerm_resource_group.rg_aks.name
   short_name          = "GPRO"
+  use_common_alert_schema = true
 
   email_receiver {
     name          = "sendtoadminteam"
-    email_address = "kvncont@gmail.com"
+    email_address = "monedaplay@gmail.com"
   }
 }
 
@@ -168,16 +169,17 @@ resource azurerm_monitor_metric_alert mma_node_status {
   scopes              = [azurerm_kubernetes_cluster.aks.id]
   description         = "Action will be triggered when Nodes status are NotReady or Unknown"
   severity            = 0
+  auto_mitigate       = false
 
   criteria {
-    metric_namespace = "Microsoft.ContainerService/managedClusters"
-    metric_name      = "kube_node_status_condition"
+    metric_namespace = "Insights.Container/Nodes"
+    metric_name      = "nodesCount"
     aggregation      = "Total"
-    operator         = "GreaterThanOrEqual"
-    threshold        = 1
+    operator         = "GreaterThan"
+    threshold        = 0
 
     dimension {
-      name     = "status2"
+      name     = "Status"
       operator = "Include"
       values   = ["NotReady", "unknown"]
     }
@@ -199,23 +201,30 @@ resource azurerm_monitor_metric_alert mma_node_status {
 }
 
 resource azurerm_monitor_metric_alert mma_pod_status {
-  name                = "alert_pod_status_phase"
+  name                = "Pods not in ready state for akskratos"
   resource_group_name = azurerm_resource_group.rg_aks.name
   scopes              = [azurerm_kubernetes_cluster.aks.id]
   description         = "Action will be triggered when pods status are Pending, Unknown or Failed"
   severity            = 0
+  auto_mitigate       = false
 
   criteria {
-    metric_namespace = "Microsoft.ContainerService/managedClusters"
-    metric_name      = "kube_pod_status_phase"
-    aggregation      = "Total"
-    operator         = "GreaterThanOrEqual"
-    threshold        = 2
+    metric_namespace = "Insights.Container/pods"
+    metric_name      = "PodReadyPercentage"
+    aggregation      = "Average"
+    operator         = "LessThan"
+    threshold        = 80
 
     dimension {
-      name     = "phase"
+      name     = "controllerName"
       operator = "Include"
-      values   = ["Pending", "Failed", "unknown"]
+      values   = ["*"]
+    }
+
+    dimension {
+      name     = "Kubernetes namespace"
+      operator = "Include"
+      values   = ["*"]
     }
   }
 
