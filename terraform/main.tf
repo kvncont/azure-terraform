@@ -174,7 +174,7 @@ resource azurerm_monitor_metric_alert mma_node_status {
   criteria {
     metric_namespace = "Insights.Container/Nodes"
     metric_name      = "nodesCount"
-    aggregation      = "Total"
+    aggregation      = "Average"
     operator         = "GreaterThan"
     threshold        = 0
 
