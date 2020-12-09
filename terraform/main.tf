@@ -143,11 +143,11 @@ resource azurerm_monitor_action_group mag_aks_gsbd {
   name                = "GSBD"
   resource_group_name = azurerm_resource_group.rg_aks.name
   short_name          = "GSBD"
-  use_common_alert_schema = true
 
   email_receiver {
     name          = "sendtodevteam"
     email_address = "kvncont@gmail.com"
+    use_common_alert_schema = true
   }
 }
 
@@ -155,11 +155,11 @@ resource azurerm_monitor_action_group mag_aks_gpro {
   name                = "GPRO"
   resource_group_name = azurerm_resource_group.rg_aks.name
   short_name          = "GPRO"
-  use_common_alert_schema = true
 
   email_receiver {
     name          = "sendtoadminteam"
     email_address = "monedaplay@gmail.com"
+    use_common_alert_schema = true
   }
 }
 
