@@ -91,6 +91,24 @@ variable aks_vm_size {
   default = "Standard_D2_v2"
 }
 
+# Alerts
+variable amag_email_receiver_list {
+  type = list(object({
+    name          = string
+    email_address = string
+  }))
+  default  = [
+    {
+      name          = "Kevin Contreras"
+      email_address = "kvncont@gmail.com"
+    },
+    {
+      name          = "Dario Contreras"
+      email_address = "monedaplay@gmail.com"
+    }
+  ]
+}
+
 # Diagnostic Settings
 variable diagnostic_setting_name {
   type    = string

@@ -144,25 +144,14 @@ resource azurerm_monitor_action_group mag_aks_gsbd {
   resource_group_name = azurerm_resource_group.rg_aks.name
   short_name          = "GSBD"
 
-  email_receiver {
-    name          = "sendtodevteam"
-    email_address = "kvncont@gmail.com"
-    use_common_alert_schema = true
-  }
+  dynamic email_receiver {
+    for_each = var.amag_email_receiver_list
 
-  tags = var.tags
-}
-
-resource azurerm_monitor_action_group mag_aks_gpro {
-  name                = "GPRO"
-  resource_group_name = azurerm_resource_group.rg_aks.name
-  short_name          = "GPRO"
-
-  email_receiver {
-    name          = "sendtoadminteam"
-    email_address = "monedaplay@gmail.com"
-    use_common_alert_schema = true
-  }
+    content {
+      name                    = email_receiver.value.name
+      email_address           = email_receiver.value.email_address
+      use_common_alert_schema = true
+    }
 
   tags = var.tags
 }
@@ -190,10 +179,6 @@ resource azurerm_monitor_metric_alert mma_node_status {
 
   action {
     action_group_id = azurerm_monitor_action_group.mag_aks_gsbd.id
-  }
-
-  action {
-    action_group_id = azurerm_monitor_action_group.mag_aks_gpro.id
   }
 
   depends_on = [
@@ -228,10 +213,6 @@ resource azurerm_monitor_metric_alert mma_pod_status {
 
   action {
     action_group_id = azurerm_monitor_action_group.mag_aks_gsbd.id
-  }
-
-  action {
-    action_group_id = azurerm_monitor_action_group.mag_aks_gpro.id
   }
 
   depends_on = [
