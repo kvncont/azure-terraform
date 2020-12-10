@@ -149,6 +149,8 @@ resource azurerm_monitor_action_group mag_aks_gsbd {
     email_address = "kvncont@gmail.com"
     use_common_alert_schema = true
   }
+
+  tags = var.tags
 }
 
 resource azurerm_monitor_action_group mag_aks_gpro {
@@ -161,6 +163,8 @@ resource azurerm_monitor_action_group mag_aks_gpro {
     email_address = "monedaplay@gmail.com"
     use_common_alert_schema = true
   }
+
+  tags = var.tags
 }
 
 resource azurerm_monitor_metric_alert mma_node_status {
@@ -197,6 +201,8 @@ resource azurerm_monitor_metric_alert mma_node_status {
     azurerm_monitor_action_group.mag_aks_gsbd,
     azurerm_monitor_action_group.mag_aks_gpro
   ]
+
+  tags = var.tags
 }
 
 resource azurerm_monitor_metric_alert mma_pod_status {
@@ -233,6 +239,8 @@ resource azurerm_monitor_metric_alert mma_pod_status {
     azurerm_monitor_action_group.mag_aks_gsbd,
     azurerm_monitor_action_group.mag_aks_gpro
   ]
+
+  tags = var.tags
 }
 
 # resource azurerm_monitor_diagnostic_setting ds_aks {
