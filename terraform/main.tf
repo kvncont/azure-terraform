@@ -204,7 +204,7 @@ resource azurerm_monitor_metric_alert mma_pod_status {
   resource_group_name = azurerm_resource_group.rg_aks.name
   scopes              = [azurerm_kubernetes_cluster.aks.id]
   description         = "Action will be triggered when pods status are Pending, Unknown or Failed"
-  severity            = 0
+  severity            = 2
 
   criteria {
     metric_namespace = "Microsoft.ContainerService/managedClusters"
