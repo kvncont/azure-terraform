@@ -152,6 +152,7 @@ resource azurerm_monitor_action_group mag_aks_gsbd {
       email_address           = email_receiver.value.email_address
       use_common_alert_schema = true
     }
+  }
 
   tags = var.tags
 }
