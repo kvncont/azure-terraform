@@ -183,8 +183,7 @@ resource azurerm_monitor_metric_alert mma_node_status {
 
   depends_on = [
     azurerm_kubernetes_cluster.aks,
-    azurerm_monitor_action_group.mag_aks_gsbd,
-    azurerm_monitor_action_group.mag_aks_gpro
+    azurerm_monitor_action_group.mag_aks_gsbd
   ]
 
   tags = var.tags
@@ -217,8 +216,7 @@ resource azurerm_monitor_metric_alert mma_pod_status {
 
   depends_on = [
     azurerm_kubernetes_cluster.aks,
-    azurerm_monitor_action_group.mag_aks_gsbd,
-    azurerm_monitor_action_group.mag_aks_gpro
+    azurerm_monitor_action_group.mag_aks_gsbd
   ]
 
   tags = var.tags
