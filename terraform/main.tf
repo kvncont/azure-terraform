@@ -139,6 +139,7 @@ resource azurerm_kubernetes_cluster aks {
   tags = var.tags
 }
 
+/*
 resource azurerm_monitor_action_group mag_aks_gsbd {
   name                = "GSBD"
   resource_group_name = azurerm_resource_group.rg_aks.name
@@ -221,6 +222,8 @@ resource azurerm_monitor_metric_alert mma_pod_status {
 
   tags = var.tags
 }
+
+*/
 
 # resource azurerm_monitor_diagnostic_setting ds_aks {
 #   name                       = var.diagnostic_setting_name
