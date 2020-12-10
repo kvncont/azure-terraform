@@ -169,17 +169,16 @@ resource azurerm_monitor_metric_alert mma_node_status {
   scopes              = [azurerm_kubernetes_cluster.aks.id]
   description         = "Action will be triggered when Nodes status are NotReady or Unknown"
   severity            = 0
-  auto_mitigate       = false
 
   criteria {
-    metric_namespace = "Insights.Container/Nodes"
-    metric_name      = "nodesCount"
+    metric_namespace = "Microsoft.ContainerService/managedClusters"
+    metric_name      = "kube_node_status_condition"
     aggregation      = "Average"
     operator         = "GreaterThan"
     threshold        = 0
 
     dimension {
-      name     = "Status"
+      name     = "status2"
       operator = "Include"
       values   = ["NotReady", "unknown"]
     }
@@ -206,25 +205,18 @@ resource azurerm_monitor_metric_alert mma_pod_status {
   scopes              = [azurerm_kubernetes_cluster.aks.id]
   description         = "Action will be triggered when pods status are Pending, Unknown or Failed"
   severity            = 0
-  auto_mitigate       = false
 
   criteria {
-    metric_namespace = "Insights.Container/pods"
-    metric_name      = "PodReadyPercentage"
+    metric_namespace = "Microsoft.ContainerService/managedClusters"
+    metric_name      = "kube_pod_status_phase"
     aggregation      = "Average"
-    operator         = "LessThan"
-    threshold        = 80
+    operator         = "GreaterThan"
+    threshold        = 0
 
     dimension {
-      name     = "controllerName"
-      operator = "Include"
-      values   = ["*"]
-    }
-
-    dimension {
-      name     = "Kubernetes namespace"
-      operator = "Include"
-      values   = ["*"]
+      name     = "phase"
+      operator = "Exclude"
+      values   = ["Running", "Succeeded"]
     }
   }
 
