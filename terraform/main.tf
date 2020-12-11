@@ -63,22 +63,22 @@ resource azurerm_log_analytics_workspace law_aks {
   tags                = var.tags
 }
 
-# resource azurerm_log_analytics_solution las_aks {
-#   solution_name         = "ContainerInsights"
-#   location              = azurerm_resource_group.rg_aks.location
-#   resource_group_name   = azurerm_resource_group.rg_aks.name
-#   workspace_resource_id = azurerm_log_analytics_workspace.law_aks.id
-#   workspace_name        = azurerm_log_analytics_workspace.law_aks.name
+resource azurerm_log_analytics_solution las_aks {
+  solution_name         = "ContainerInsights"
+  location              = azurerm_resource_group.rg_aks.location
+  resource_group_name   = azurerm_resource_group.rg_aks.name
+  workspace_resource_id = azurerm_log_analytics_workspace.law_aks.id
+  workspace_name        = azurerm_log_analytics_workspace.law_aks.name
 
-#   plan {
-#     publisher = "Microsoft"
-#     product   = "OMSGalleryContainerInsights"
-#   }
+  plan {
+    publisher = "Microsoft"
+    product   = "OMSGalleryContainerInsights"
+  }
 
-#   depends_on = [
-#     azurerm_log_analytics_workspace.law_aks
-#   ]
-# }
+  depends_on = [
+    azurerm_log_analytics_workspace.law_aks
+  ]
+}
 
 resource azurerm_kubernetes_cluster aks {
   name                = var.aks_name
@@ -93,7 +93,7 @@ resource azurerm_kubernetes_cluster aks {
     vm_size              = var.aks_vm_size
     enable_auto_scaling  = var.aks_enable_auto_scaling
     type                 = "VirtualMachineScaleSets"
-    # availability_zones   = ["1", "2"]
+    # availability_zones   = ["1", "2", "3"]
     # sku_tier             = Paid
     # vnet_subnet_id       = azurerm_subnet.subnet_aks.id
     vnet_subnet_id       = data.azurerm_subnet.subnet_akskratos_imported.id
@@ -123,6 +123,11 @@ resource azurerm_kubernetes_cluster aks {
   addon_profile {
     kube_dashboard {
       enabled = true
+    }
+
+    oms_agent {
+      enabled                    = true
+      log_analytics_workspace_id = azurerm_log_analytics_workspace.law_aks.id
     }
   }
 
