@@ -93,7 +93,7 @@ resource azurerm_kubernetes_cluster aks {
     vm_size              = var.aks_vm_size
     enable_auto_scaling  = var.aks_enable_auto_scaling
     type                 = "VirtualMachineScaleSets"
-    availability_zones   = ["1"]
+    availability_zones   = ["1","2"]
     # sku_tier             = Paid
     # vnet_subnet_id       = azurerm_subnet.subnet_aks.id
     vnet_subnet_id       = data.azurerm_subnet.subnet_akskratos_imported.id
