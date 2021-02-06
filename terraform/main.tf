@@ -55,30 +55,30 @@ resource azurerm_subnet subnet_aks {
   ]
 }
 
-resource azurerm_log_analytics_workspace law_aks {
-  name                = var.law_aks_name
-  location            = azurerm_resource_group.rg_aks.location
-  resource_group_name = azurerm_resource_group.rg_aks.name
-  sku                 = "PerGB2018"
-  tags                = var.tags
-}
+# resource azurerm_log_analytics_workspace law_aks {
+#   name                = var.law_aks_name
+#   location            = azurerm_resource_group.rg_aks.location
+#   resource_group_name = azurerm_resource_group.rg_aks.name
+#   sku                 = "PerGB2018"
+#   tags                = var.tags
+# }
 
-resource azurerm_log_analytics_solution las_aks {
-  solution_name         = "ContainerInsights"
-  location              = azurerm_resource_group.rg_aks.location
-  resource_group_name   = azurerm_resource_group.rg_aks.name
-  workspace_resource_id = azurerm_log_analytics_workspace.law_aks.id
-  workspace_name        = azurerm_log_analytics_workspace.law_aks.name
+# resource azurerm_log_analytics_solution las_aks {
+#   solution_name         = "ContainerInsights"
+#   location              = azurerm_resource_group.rg_aks.location
+#   resource_group_name   = azurerm_resource_group.rg_aks.name
+#   workspace_resource_id = azurerm_log_analytics_workspace.law_aks.id
+#   workspace_name        = azurerm_log_analytics_workspace.law_aks.name
 
-  plan {
-    publisher = "Microsoft"
-    product   = "OMSGalleryContainerInsights"
-  }
+#   plan {
+#     publisher = "Microsoft"
+#     product   = "OMSGalleryContainerInsights"
+#   }
 
-  depends_on = [
-    azurerm_log_analytics_workspace.law_aks
-  ]
-}
+#   depends_on = [
+#     azurerm_log_analytics_workspace.law_aks
+#   ]
+# }
 
 resource azurerm_kubernetes_cluster aks {
   name                = var.aks_name
@@ -125,10 +125,10 @@ resource azurerm_kubernetes_cluster aks {
       enabled = true
     }
 
-    oms_agent {
-      enabled                    = true
-      log_analytics_workspace_id = azurerm_log_analytics_workspace.law_aks.id
-    }
+    # oms_agent {
+    #   enabled                    = true
+    #   log_analytics_workspace_id = azurerm_log_analytics_workspace.law_aks.id
+    # }
   }
 
   lifecycle {
