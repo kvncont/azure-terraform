@@ -86,9 +86,10 @@ variable aks_node_min_count {
   default     = null
 }
 
+# Standard_D2_v2, B2s
 variable aks_vm_size {
   type    = string
-  default = "Standard_D2_v2"
+  default = "B2s"
 }
 
 # Alerts
