@@ -71,7 +71,7 @@ variable aks_enable_auto_scaling {
 
 variable aks_node_count_default {
   type    = number
-  default = 2
+  default = 1
 }
 
 variable aks_node_max_count {
