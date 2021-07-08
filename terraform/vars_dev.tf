@@ -4,6 +4,11 @@ variable rg_aks_name {
   default = "rg-akskratos"
 }
 
+variable primary_location {
+  type    = string
+  default = "Central US"
+}
+
 variable rg_aks_location {
   type    = string
   default = "East US 2"
