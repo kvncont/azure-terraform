@@ -1,5 +1,5 @@
 # **Terraform**
-Proyecto para crear aprovisionar recursos en azure con terraform.
+Proyecto para aprovisionar recursos en azure con terraform.
 ### Comandos necesarios para crear los recursos con terraform.
 #### **Paso 1:** Hacer login con el cli de azure (`az login`) o bien crear un `service principal` y exportar los siguientes valores correspondientes a su cuenta de azure.
 ```
