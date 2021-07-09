@@ -1,16 +1,57 @@
+# data azurerm_resource_group rg_vnet_akskratos_imported {
+#   name = "rg-portal"
+# }
+
+# data azurerm_virtual_network vnet_akskratos_imported {
+#   name                = "vnet-akskratos-imported"
+#   resource_group_name = data.azurerm_resource_group.rg_vnet_akskratos_imported.name
+# }
+
+# data azurerm_subnet subnet_akskratos_imported {
+#   name                 = "subnet-akskratos"
+#   resource_group_name  = data.azurerm_resource_group.rg_vnet_akskratos_imported.name
+#   virtual_network_name = data.azurerm_virtual_network.vnet_akskratos_imported.name
+# }
+
+# resource azurerm_network_security_group nsg_aks {
+#   name                = var.nsg_aks_name
+#   location            = azurerm_resource_group.rg_aks.location
+#   resource_group_name = azurerm_resource_group.rg_aks.name
+#   tags                = var.tags
+# }
+
+# resource azurerm_virtual_network vnet_aks {
+#   name                = var.vnet_aks_name
+#   location            = azurerm_resource_group.rg_aks.location
+#   resource_group_name = azurerm_resource_group.rg_aks.name
+#   address_space       = var.vnet_aks_address_space
+#   # dns_servers         = var.vnet_aks_dns_server
+#   tags = var.tags
+# }
+
+# resource azurerm_subnet subnet_aks {
+#   name                 = var.subnet_aks_name
+#   resource_group_name  = azurerm_resource_group.rg_aks.name
+#   virtual_network_name = var.vnet_aks_name
+#   address_prefixes     = var.subnet_aks_address
+
+#   depends_on = [
+#     azurerm_virtual_network.vnet_aks
+#   ]
+# }
 
 #resource azurerm_log_analytics_workspace law_aks {
 # name                = var.law_aks_name
-# location            = azurerm_resource_group.rg_aks.location
-# resource_group_name = azurerm_resource_group.rg_aks.name
+# location            = azurerm_resource_group.rg_terraform.location
+# resource_group_name = azurerm_resource_group.rg_terraform.name
 # sku                 = "PerGB2018"
 # tags                = var.tags
 #}
 
 #resource azurerm_log_analytics_solution las_aks {
 # solution_name         = "ContainerInsights"
-# location              = azurerm_resource_group.rg_aks.location
-# resource_group_name   = azurerm_resource_group.rg_aks.name
+# location              = azurerm_resource_group.rg_terraform.location
+# resource_group_name   = azurerm_resource_group.rg_terraform.name
 # workspace_resource_id = azurerm_log_analytics_workspace.law_aks.id
 # workspace_name        = azurerm_log_analytics_workspace.law_aks.name
 #
@@ -26,8 +67,8 @@
 
 #resource azurerm_kubernetes_cluster aks {
 #  name                = var.aks_name
-#  location            = azurerm_resource_group.rg_aks.location
-#  resource_group_name = azurerm_resource_group.rg_aks.name
+#  location            = azurerm_resource_group.rg_terraform.location
+#  resource_group_name = azurerm_resource_group.rg_terraform.name
 #  dns_prefix          = "${var.aks_name}-dns"
 #  kubernetes_version  = var.aks_kubernetes_version
 #
@@ -90,7 +131,7 @@
 
 #resource azurerm_monitor_action_group mag_aks_gsbd {
 #  name                = "GSBD"
-#  resource_group_name = azurerm_resource_group.rg_aks.name
+#  resource_group_name = azurerm_resource_group.rg_terraform.name
 #  short_name          = "GSBD"
 #
 #  dynamic email_receiver {
@@ -108,7 +149,7 @@
 
 #resource azurerm_monitor_metric_alert mma_node_status {
 #  name                = "Nodes in not ready status for akskratos"
-#  resource_group_name = azurerm_resource_group.rg_aks.name
+#  resource_group_name = azurerm_resource_group.rg_terraform.name
 #  scopes              = [azurerm_kubernetes_cluster.aks.id]
 #  description         = "Action will be triggered when Nodes status are NotReady or Unknown"
 #  severity            = 0
@@ -141,7 +182,7 @@
 
 #resource azurerm_monitor_metric_alert mma_pod_status {
 #  name                = "Pods not in ready state for akskratos"
-#  resource_group_name = azurerm_resource_group.rg_aks.name
+#  resource_group_name = azurerm_resource_group.rg_terraform.name
 #  scopes              = [azurerm_kubernetes_cluster.aks.id]
 #  description         = "Action will be triggered when pods status are Pending, Unknown or Failed"
 #  severity            = 2

@@ -9,11 +9,6 @@ variable primary_location {
   default = "Central US"
 }
 
-variable rg_aks_location {
-  type    = string
-  default = "East US 2"
-}
-
 # Network Security Group
 variable nsg_aks_name {
   type    = string
