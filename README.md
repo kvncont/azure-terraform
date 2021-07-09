@@ -20,7 +20,7 @@ export AZURE_STORAGE_ACCOUNT_KEY=xxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 terraform init
 ```
-#### **Paso 3 (Opción 2  - Recomendada):** Inicializar terraform para que se conecte con la cuenta de azure correspondiente usando un service principal y utilizando un storage account para guardar la configuracion del backend.
+#### **Paso 3 (Opción 2  - Recomendada):** Inicializar terraform para que se conecte con la cuenta de azure correspondiente usando un `service principal` y utilizando un `storage account` para guardar la configuracion del backend.
 ```
 terraform init \
 -var "service_principal_subscription_id=${AZURE_SUBSCRIPTION_ID}" \
