@@ -1,50 +1,58 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'ubuntu-latest'
+# pool:
+#   vmImage: 'ubuntu-latest'
 
 variables:
 - group: global-vars
 
-steps:
-- task: TerraformInstaller@0
-  inputs:
-    terraformVersion: '0.15.4'
-  displayName: 'Terraform install'
+stages:
+- stage: CI
+  displayName: CI - Stage
+  pool:
+    vmImage: ubuntu-latest
+  jobs:
+  - job: Preparation
 
-- task: TerraformTaskV2@2
-  inputs:
-    provider: 'azurerm'
-    command: 'init'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
-    backendServiceArm: 'Development'
-    backendAzureRmResourceGroupName: '$(RESOURCE_GROUP_NAME)'
-    backendAzureRmStorageAccountName: '$(STORAGE_ACCOUNT_NAME)'
-    backendAzureRmContainerName: '$(CONTAINER_NAME)'
-    backendAzureRmKey: '$(STORAGE_KEY)'
-  displayName: 'Terraform init'
+    steps:
+    - task: TerraformInstaller@0
+      inputs:
+        terraformVersion: '0.15.4'
+      displayName: 'Terraform install'
 
-- task: TerraformTaskV2@2
-  inputs:
-    provider: 'azurerm'
-    command: 'validate'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
-  displayName: 'Terraform validate'
+    - task: TerraformTaskV2@2
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
+        backendServiceArm: 'Development'
+        backendAzureRmResourceGroupName: '$(RESOURCE_GROUP_NAME)'
+        backendAzureRmStorageAccountName: '$(STORAGE_ACCOUNT_NAME)'
+        backendAzureRmContainerName: '$(CONTAINER_NAME)'
+        backendAzureRmKey: '$(STORAGE_KEY)'
+      displayName: 'Terraform init'
 
-- task: TerraformTaskV2@2
-  inputs:
-    provider: 'azurerm'
-    command: 'plan'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
-    commandOptions: '-var-file=vars_pro.tfvars -out=plan.tfplan'
-    environmentServiceNameAzureRM: 'Development'
-  displayName: 'Terraform plan'
+    - task: TerraformTaskV2@2
+      inputs:
+        provider: 'azurerm'
+        command: 'validate'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
+      displayName: 'Terraform validate'
 
-- task: ManualValidation@0
-  inputs:
-    notifyUsers: 'kvncont@gmail.com'
-    instructions: 'Test instruction'
+    - task: TerraformTaskV2@2
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
+        commandOptions: '-var-file=vars_pro.tfvars -out=plan.tfplan'
+        environmentServiceNameAzureRM: 'Development'
+      displayName: 'Terraform plan'
+
+# - task: ManualValidation@0
+#   inputs:
+#     notifyUsers: 'kvncont@gmail.com'
+#     instructions: 'Test instruction'
 
 # - task: CopyFiles@2
 #   inputs:
