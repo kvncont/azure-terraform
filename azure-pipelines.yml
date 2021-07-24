@@ -49,10 +49,32 @@ stages:
         environmentServiceNameAzureRM: 'Development'
       displayName: 'Terraform plan'
 
-# - task: ManualValidation@0
-#   inputs:
-#     notifyUsers: 'kvncont@gmail.com'
-#     instructions: 'Test instruction'
+- stage: CD
+  displayName: CD - Stage
+  jobs:
+
+  - job: Approvals
+    pool: server
+    steps:
+    - task: ManualValidation@0
+      timeoutInMinutes: 1440 # task times out in 1 day
+      inputs:
+        notifyUsers: |
+          kvncont@gmail.com
+        instructions: 'Please validate the build configuration and resume'
+        onTimeout: 'resume'
+
+  - job: Deploy
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    -
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          # Write your commands here
+          echo 'Hello world'
 
 # - task: CopyFiles@2
 #   inputs:
