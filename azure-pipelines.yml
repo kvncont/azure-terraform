@@ -13,7 +13,7 @@ steps:
     terraformVersion: '0.15.4'
   displayName: 'Terraform install'
 
-- task: TerraformTaskV1@0
+- task: TerraformTaskV2@2
   inputs:
     provider: 'azurerm'
     command: 'init'
@@ -25,14 +25,14 @@ steps:
     backendAzureRmKey: '$(STORAGE_KEY)'
   displayName: 'Terraform init'
 
-- task: TerraformTaskV1@0
+- task: TerraformTaskV2@2
   inputs:
     provider: 'azurerm'
     command: 'validate'
     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
   displayName: 'Terraform validate'
 
-- task: TerraformTaskV1@0
+- task: TerraformTaskV2@2
   inputs:
     provider: 'azurerm'
     command: 'plan'
