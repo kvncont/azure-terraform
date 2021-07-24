@@ -41,16 +41,26 @@ steps:
     environmentServiceNameAzureRM: 'Development'
   displayName: 'Terraform plan'
 
-- task: CopyFiles@2
+- task: ManualIntervention@8
   inputs:
-    SourceFolder: '$(System.DefaultWorkingDirectory)/terraform/'
-    Contents: '**'
-    TargetFolder: '$(Build.Artifactstagingdirectory)'
-  displayName: 'Copy terraform plan to artifacts'
+    instructions: 'Please checkout the documentation'
+    emailRecipients: 'kvncont@gmail.com'
 
-- task: PublishBuildArtifacts@1
+- task: ManualValidation@0
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'terraform'
-    publishLocation: 'Container'
-  displayName: 'Publish terraform plan'
+    notifyUsers: 'kvncont@gmail.com'
+    instructions: 'Test instruction'
+
+# - task: CopyFiles@2
+#   inputs:
+#     SourceFolder: '$(System.DefaultWorkingDirectory)/terraform/'
+#     Contents: '**'
+#     TargetFolder: '$(Build.Artifactstagingdirectory)'
+#   displayName: 'Copy terraform plan to artifacts'
+
+# - task: PublishBuildArtifacts@1
+#   inputs:
+#     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+#     ArtifactName: 'terraform'
+#     publishLocation: 'Container'
+#   displayName: 'Publish terraform plan'
