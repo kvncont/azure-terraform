@@ -41,11 +41,6 @@ steps:
     environmentServiceNameAzureRM: 'Development'
   displayName: 'Terraform plan'
 
-- task: ManualIntervention@8
-  inputs:
-    instructions: 'Please checkout the documentation'
-    emailRecipients: 'kvncont@gmail.com'
-
 - task: ManualValidation@0
   inputs:
     notifyUsers: 'kvncont@gmail.com'
