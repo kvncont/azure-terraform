@@ -55,7 +55,7 @@ stages:
     #     publishLocation: 'Container'
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(Pipeline.Workspace)/plan.tfplan'
+        targetPath: '$(Pipeline.Workspace)/terraform/plan.tfplan'
         artifact: 'Plan'
         publishLocation: 'pipeline'
 
