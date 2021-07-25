@@ -31,3 +31,6 @@ override.tf.json
 
 # Ignore .idea directory
 .idea/
+
+# Ignore Config
+config.txt
