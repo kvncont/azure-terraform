@@ -60,16 +60,22 @@ stages:
       runOnce:
         deploy:
           steps:
+          - task: DownloadPipelineArtifact@2
+            displayName: 'Download pipeline artifact'
+            inputs:
+              buildType: 'current'
+              artifactName: 'Plan'
+              targetPath: '$(System.DefaultWorkingDirectory)'
           - task: TerraformInstaller@0
             displayName: 'Terraform install'
             inputs:
-              terraformVersion: '0.15.4'  
+              terraformVersion: '0.15.4'
           - task: TerraformTaskV2@2
             displayName: 'Terraform init'
             inputs:
               provider: 'azurerm'
               command: 'init'
-              workingDirectory: '$(Pipeline.Workspace)/terraform/'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
               backendServiceArm: 'Development'
               backendAzureRmResourceGroupName: '$(RESOURCE_GROUP_NAME)'
               backendAzureRmStorageAccountName: '$(STORAGE_ACCOUNT_NAME)'
