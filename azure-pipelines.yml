@@ -41,19 +41,8 @@ stages:
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
         commandOptions: '-var-file=vars_pro.tfvars -out=plan.tfplan'
         environmentServiceNameAzureRM: 'Development'
-    # - task: CopyFiles@2
-    #   displayName: 'Copy terraform plan to artifacts'
-    #   inputs:
-    #     SourceFolder: '$(System.DefaultWorkingDirectory)/terraform/'
-    #     Contents: '**'
-    #     TargetFolder: '$(Build.Artifactstagingdirectory)'
-    # - task: PublishBuildArtifacts@1
-    #   displayName: 'Publish terraform plan'
-    #   inputs:
-    #     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    #     ArtifactName: 'terraform'
-    #     publishLocation: 'Container'
     - task: PublishPipelineArtifact@1
+      displayName: 'Public pipeline artifact'
       inputs:
         targetPath: '$(System.DefaultWorkingDirectory)/terraform/'
         artifact: 'Plan'
@@ -71,11 +60,6 @@ stages:
       runOnce:
         deploy:
           steps:
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              buildType: 'current'
-              artifactName: 'Plan'
-              targetPath: '$(System.DefaultWorkingDirectory)/terraform/'
           - task: TerraformTaskV2@2
             displayName: 'Terraform init'
             inputs:
@@ -87,16 +71,3 @@ stages:
               backendAzureRmStorageAccountName: '$(STORAGE_ACCOUNT_NAME)'
               backendAzureRmContainerName: '$(CONTAINER_NAME)'
               backendAzureRmKey: '$(STORAGE_KEY)'
-# - task: CopyFiles@2
-#   inputs:
-#     SourceFolder: '$(System.DefaultWorkingDirectory)/terraform/'
-#     Contents: '**'
-#     TargetFolder: '$(Build.Artifactstagingdirectory)'
-#   displayName: 'Copy terraform plan to artifacts'
-
-# - task: PublishBuildArtifacts@1
-#   inputs:
-#     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-#     ArtifactName: 'terraform'
-#     publishLocation: 'Container'
-#   displayName: 'Publish terraform plan'
