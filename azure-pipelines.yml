@@ -81,3 +81,11 @@ stages:
               backendAzureRmStorageAccountName: '$(STORAGE_ACCOUNT_NAME)'
               backendAzureRmContainerName: '$(CONTAINER_NAME)'
               backendAzureRmKey: '$(STORAGE_KEY)'
+          - task: TerraformTaskV2@2
+            displayName: 'Terraform apply'
+            inputs:
+              provider: 'azurerm'
+              command: 'apply'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
+              commandOptions: 'plan.tfplan -auto-approve'
+              environmentServiceNameAzureRM: 'Development'
