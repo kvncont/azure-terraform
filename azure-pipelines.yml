@@ -1,5 +1,17 @@
 trigger:
-- master
+  branches:
+    include:
+    - master
+    - develop
+pr:
+  branches:
+    include:
+    - master
+    - develop
+  paths:
+    exclude:
+      - README/*
+      - .gitignore
 
 variables:
 - group: global-vars
