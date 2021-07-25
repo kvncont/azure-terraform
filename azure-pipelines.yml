@@ -42,9 +42,9 @@ stages:
         commandOptions: '-var-file=vars_pro.tfvars -out=plan.tfplan'
         environmentServiceNameAzureRM: 'Development'
     - task: PublishPipelineArtifact@1
-      displayName: 'Public pipeline artifact'
+      displayName: 'Publish artifact'
       inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)/terraform/'
+        targetPath: '$(System.DefaultWorkingDirectory)/terraform/plan.tfplan'
         artifact: 'Plan'
         publishLocation: 'pipeline'
 
@@ -60,16 +60,22 @@ stages:
       runOnce:
         deploy:
           steps:
+          - checkout: 'self'
+          - download: 'none'
           - task: DownloadPipelineArtifact@2
-            displayName: 'Download pipeline artifact'
+            displayName: 'Download artifact'
             inputs:
               buildType: 'current'
               artifactName: 'Plan'
               targetPath: '$(System.DefaultWorkingDirectory)/terraform/'
-          # - task: TerraformInstaller@0
-          #   displayName: 'Terraform install'
-          #   inputs:
-          #     terraformVersion: '0.15.4'
+          - task: Bash@3
+            inputs:
+              targetType: 'inline'
+              script: 'ls -la'
+          - task: TerraformInstaller@0
+            displayName: 'Terraform install'
+            inputs:
+              terraformVersion: '0.15.4'
           - task: TerraformTaskV2@2
             displayName: 'Terraform init'
             inputs:
