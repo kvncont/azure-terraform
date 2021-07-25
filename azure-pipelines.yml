@@ -65,7 +65,7 @@ stages:
             inputs:
               buildType: 'current'
               artifactName: 'Plan'
-              targetPath: '$(System.DefaultWorkingDirectory)'
+              targetPath: '$(System.DefaultWorkingDirectory)/terraform/'
           - task: TerraformInstaller@0
             displayName: 'Terraform install'
             inputs:
