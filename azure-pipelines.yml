@@ -65,7 +65,7 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'init'
-              workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
+              workingDirectory: '$(Pipeline.Workspace)/terraform/'
               backendServiceArm: 'Development'
               backendAzureRmResourceGroupName: '$(RESOURCE_GROUP_NAME)'
               backendAzureRmStorageAccountName: '$(STORAGE_ACCOUNT_NAME)'
