@@ -43,6 +43,7 @@ stages:
         environmentServiceNameAzureRM: 'Development'
     - task: PublishPipelineArtifact@1
       displayName: 'Publish artifact'
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
       inputs:
         targetPath: '$(System.DefaultWorkingDirectory)/terraform/plan.tfplan'
         artifact: 'Plan'
@@ -50,6 +51,7 @@ stages:
 
 - stage: CD
   displayName: CD - Stage
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   pool:
     vmImage: ubuntu-latest
   jobs:
