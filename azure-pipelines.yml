@@ -11,14 +11,13 @@ stages:
     vmImage: ubuntu-latest
   jobs:
   - job: Preparation
-
     steps:
     - task: TerraformInstaller@0
+      displayName: 'Terraform install'
       inputs:
         terraformVersion: '0.15.4'
-      displayName: 'Terraform install'
-
     - task: TerraformTaskV2@2
+      displayName: 'Terraform init'
       inputs:
         provider: 'azurerm'
         command: 'init'
@@ -28,23 +27,37 @@ stages:
         backendAzureRmStorageAccountName: '$(STORAGE_ACCOUNT_NAME)'
         backendAzureRmContainerName: '$(CONTAINER_NAME)'
         backendAzureRmKey: '$(STORAGE_KEY)'
-      displayName: 'Terraform init'
-
     - task: TerraformTaskV2@2
+      displayName: 'Terraform validate'
       inputs:
         provider: 'azurerm'
         command: 'validate'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
-      displayName: 'Terraform validate'
-
     - task: TerraformTaskV2@2
+      displayName: 'Terraform plan'
       inputs:
         provider: 'azurerm'
         command: 'plan'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
         commandOptions: '-var-file=vars_pro.tfvars -out=plan.tfplan'
         environmentServiceNameAzureRM: 'Development'
-      displayName: 'Terraform plan'
+    # - task: CopyFiles@2
+    #   displayName: 'Copy terraform plan to artifacts'
+    #   inputs:
+    #     SourceFolder: '$(System.DefaultWorkingDirectory)/terraform/'
+    #     Contents: '**'
+    #     TargetFolder: '$(Build.Artifactstagingdirectory)'
+    # - task: PublishBuildArtifacts@1
+    #   displayName: 'Publish terraform plan'
+    #   inputs:
+    #     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    #     ArtifactName: 'terraform'
+    #     publishLocation: 'Container'
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Pipeline.Workspace)/plan.tfplan'
+        artifact: 'Plan'
+        publishLocation: 'pipeline'
 
 - stage: CD
   displayName: CD - Stage
@@ -54,15 +67,24 @@ stages:
     environment: 'Development IaC'
     strategy:
       runOnce:
-        deploy:      
+        deploy:
           steps:
-          - task: Bash@3
+          - task: DownloadPipelineArtifact@2
             inputs:
-              targetType: 'inline'
-              script: |
-                # Write your commands here
-                echo 'Hello world'
-
+              buildType: 'current'
+              artifactName: 'Plan'
+              targetPath: '$(Pipeline.Workspace)'
+          - task: TerraformTaskV2@2
+            displayName: 'Terraform init'
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
+              backendServiceArm: 'Development'
+              backendAzureRmResourceGroupName: '$(RESOURCE_GROUP_NAME)'
+              backendAzureRmStorageAccountName: '$(STORAGE_ACCOUNT_NAME)'
+              backendAzureRmContainerName: '$(CONTAINER_NAME)'
+              backendAzureRmKey: '$(STORAGE_KEY)'
 # - task: CopyFiles@2
 #   inputs:
 #     SourceFolder: '$(System.DefaultWorkingDirectory)/terraform/'
