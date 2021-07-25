@@ -55,7 +55,7 @@ stages:
     #     publishLocation: 'Container'
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(Pipeline.Workspace)/terraform/plan.tfplan'
+        targetPath: '$(System.DefaultWorkingDirectory)/terraform/'
         artifact: 'Plan'
         publishLocation: 'pipeline'
 
@@ -73,7 +73,7 @@ stages:
             inputs:
               buildType: 'current'
               artifactName: 'Plan'
-              targetPath: '$(Pipeline.Workspace)'
+              targetPath: '$(System.DefaultWorkingDirectory)/terraform/'
           - task: TerraformTaskV2@2
             displayName: 'Terraform init'
             inputs:
