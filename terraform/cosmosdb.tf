@@ -71,9 +71,9 @@ resource "azurerm_cosmosdb_account" "cosmosdb_account_kvncont" {
   #   failover_priority = 1
   # }
 
-  depends_on = [
-    azurerm_subnet.subnet_terraform,
-  ]
+  # depends_on = [
+  #   azurerm_subnet.subnet_terraform,
+  # ]
 
   tags = var.tags
 }
