@@ -51,7 +51,7 @@ stages:
         provider: 'azurerm'
         command: 'plan'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
-        commandOptions: '-var-file=vars_pro.tfvars -out=plan.tfplan'
+        commandOptions: '-out=plan.tfplan'
         environmentServiceNameAzureRM: 'Development'
     - task: PublishPipelineArtifact@1
       displayName: 'Publish artifact'
