@@ -45,3 +45,42 @@ terraform plan
 ```
 terraform apply
 ```
+
+# Información adicional
+
+## Requirements
+
+| Name | Version |
+|------|---------|
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~>2.60.0 |
+
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 2.60.0 |
+
+## Modules
+
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_cosmosdb"></a> [cosmosdb](#module\_cosmosdb) | git::https://github.com/kvncont/azure-terraform-modules.git//modules/services/cosmosdb | v0.0.1 |
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [azurerm_resource_group.rg_terraform](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_location"></a> [location](#input\_location) | Shared variables | `string` | `"Central US"` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Tags | `map(string)` | <pre>{<br>  "created_by": "terraform",<br>  "env": "dev"<br>}</pre> | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_cosmosdb_endpoint"></a> [cosmosdb\_endpoint](#output\_cosmosdb\_endpoint) | CosmosDB endpoint |

@@ -1,4 +1,5 @@
 # CosmosDB
 output "cosmosdb_endpoint" {
-    value = module.cosmosdb.endpoint
+  description = "CosmosDB endpoint"
+  value       = module.cosmosdb.endpoint
 }
