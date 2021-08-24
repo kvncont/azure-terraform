@@ -20,7 +20,7 @@ resource "azurerm_resource_group" "rg_terraform" {
 
 module "cosmosdb" {
   # source                 = "../../modules/services/cosmosdb"
-  source                 = "git::https://github.com/kvncont/azure-terraform-modules.git//modules/services/cosmosdb?ref=v0.0.1"
+  source                 = "git::https://github.com/kvncont/azure-terraform-modules.git//modules/services/cosmosdb?ref=v0.0.2"
   resource_group_name    = azurerm_resource_group.rg_terraform.name
   location               = azurerm_resource_group.rg_terraform.location
   cosmosdb_account_name  = "kvncont"
