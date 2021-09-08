@@ -64,6 +64,7 @@ stages:
 - stage: CD
   displayName: CD - Stage
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  dependsOn: CI
   pool:
     vmImage: ubuntu-latest
   jobs:
