@@ -20,7 +20,8 @@ stages:
 - stage: CI
   displayName: CI - Stage
   pool:
-    vmImage: ubuntu-latest
+    # vmImage: ubuntu-latest
+    name: linux-ubuntu
   jobs:
   - job: Preparation
     steps:
